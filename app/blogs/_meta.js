@@ -1,3 +1,3 @@
 export default {
-  origin: "First Blog ✏",
+  "unit-conversion": "Unit Conversion",
 };

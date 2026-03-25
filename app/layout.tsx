@@ -1,5 +1,5 @@
 import { Footer, Layout, Navbar } from "nextra-theme-docs";
-import { Banner, Head, Search } from "nextra/components";
+import { Head, Search } from "nextra/components";
 import { getPageMap } from "nextra/page-map";
 import "nextra-theme-docs/style.css";
 
@@ -7,19 +7,19 @@ export const metadata = {
   title: "My Cool Docs Site",
 };
 
-const banner = (
-  <Banner storageKey="some-key">My Project 1.0.0 is released 🎉</Banner>
-);
+// const banner = (
+//   <Banner storageKey="some-key">My Project 1.0.0 is released 🎉</Banner>
+// );
 const navbar = (
   <Navbar
-    logo={<b>🦐 My Cool Project</b>}
-    logoLink={"https://bhavyadang.in"}
-    projectLink="https://github.com/bhavya-dang"
+    logo={<b>📔Shubhamkar Nalkar&#39;s Blogs</b>}
+    logoLink={"https://www.linkedin.com/in/shubhankar-n"}
+    projectLink="https://github.com/shubhamkarnalkar"
     chatLink="https://discord.gg/"
   />
 );
 const footer = (
-  <Footer>MIT {new Date().getFullYear()} © My Cool Project.</Footer>
+  <Footer>MIT {new Date().getFullYear()} © Shubhamkar Nalkar</Footer>
 );
 
 const search = <Search placeholder="Search docs.."></Search>;
@@ -45,10 +45,10 @@ export default async function RootLayout({
       </Head>
       <body>
         <Layout
-          banner={banner}
+          // banner={banner}
           navbar={navbar}
           pageMap={await getPageMap()}
-          docsRepositoryBase="https://github.com/bhavya-dang/my-project"
+          docsRepositoryBase="https://github.com/shubhamkarnalkar/"
           footer={footer}
           search={search}
           editLink={null}

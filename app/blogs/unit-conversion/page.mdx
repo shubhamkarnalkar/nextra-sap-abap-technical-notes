@@ -1,0 +1,93 @@
+# Unit Conversion
+
+## Product-specific conversion of units of measurement
+
+### There are several ways to convert the units.
+
+1. Using a Class cl_md_product_unit_conversion
+2. Using a FM MD_CONVERT_MATERIAL_UNIT
+
+## 1. Using a Class cl_md_product_unit_conversion
+
+Check the documentation of the method `convert` in this class.
+
+### Watchout
+
+1. Always provide floating type variable value to the method for input & output along with the base unit.
+2. Convert matnr to internal format
+
+### Example:
+
+```abap
+" In this example, we are converting the 1 PC(Internal Unit ST) to Carton (Internal Unit KAR)
+    DATA: lv_out   TYPE f,
+		  iv_matnr TYPE matnr,
+		  iv_base_unit TYPE meins,
+		  lc_pc_uom TYPE meins VALUE 'ST',"should be internal unit only
+          lv_matnr TYPE matnr.
+
+    CALL FUNCTION 'CONVERSION_EXIT_MATN1_INPUT'
+      EXPORTING
+        input  = iv_matnr
+      IMPORTING
+        output = lv_matnr.
+    TRY.
+        cl_md_product_unit_conversion=>convert(
+          EXPORTING
+            input           = CONV f( 1 )
+            product         = lv_matnr
+            alternativeunit = lc_pc_uom
+          IMPORTING
+            output          = lv_out
+          CHANGING
+            baseunit        = iv_base_unit
+        ).
+
+        IF lv_out IS NOT INITIAL.
+          ch_line-qty_per_pack = CONV #( lv_out ) .
+        ENDIF.
+      CATCH cx_md_product_unit_conversion INTO DATA(exception).
+        DATA(lv_message) = exception->get_text( ).
+*        MESSAGE lv_message TYPE 'W'.
+    ENDTRY.
+```
+
+## 2. Using a FM MD_CONVERT_MATERIAL_UNIT
+
+```abap
+  CONSTANTS:
+    lc_carton_uom type meins value 'KAR'.
+
+  DATA:
+    lv_material_number TYPE matnr,
+    lv_quantity_unit TYPE vrkme,
+    lv_quantity TYPE fkimg,
+    lv_no_of_cartons TYPE fkimg,
+
+* Quantity conversion from Unit to Cartons
+CALL FUNCTION 'MD_CONVERT_MATERIAL_UNIT'
+	EXPORTING
+		i_matnr              = lv_material_number
+		i_in_me              = lv_quantity_unit
+		i_out_me             = lc_carton_uom
+		i_menge              = lv_quantity
+	IMPORTING
+		e_menge              = lv_no_of_cartons
+	EXCEPTIONS
+		error_in_application = 1
+		error                = 2
+		OTHERS               = 3.
+IF sy-subrc <> 0.
+*   MESSAGE ID SY-MSGID TYPE SY-MSGTY NUMBER SY-MSGNO
+*     WITH SY-MSGV1 SY-MSGV2 SY-MSGV3 SY-MSGV4.
+ENDIF.
+```
+
+Summary
+
+This example demonstrates calling the function module `MD_CONVERT_MATERIAL_UNIT` to convert a material quantity from its current unit of measure to cartons. Key points:
+
+- Input parameters: `i_matnr` (material number), `i_in_me` (input UoM), `i_out_me` (target UoM, here cartons), `i_menge` (quantity to convert).
+- Output: `e_menge` receives the converted quantity expressed in the requested UoM (`no_of_cartons` in this example).
+- Exceptions: the FM raises `error_in_application`, `error`, or other exceptions — check `sy-subrc` after the call and handle errors (optionally using `SY-MSG*` to display details).
+- Notes: the conversion uses product-specific master data (conversion factors UoM↔UoM). Ensure the material and units are maintained in SAP so a valid conversion factor exists.
