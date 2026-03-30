@@ -4,8 +4,12 @@ const withNextra = nextra({
   defaultShowCopyCode: true,
 });
 
-// You can include other Next.js configuration options here, in addition to Nextra settings:
+// Explicitly setting output to 'export' prevents the GitHub Action from crashing
 export default withNextra({
+  output: "export",
+  images: {
+    unoptimized: true, // Necessary for static exports using next/image
+  },
   async redirects() {
     return [
       {
