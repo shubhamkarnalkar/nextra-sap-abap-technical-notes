@@ -4,11 +4,19 @@ const withNextra = nextra({
   defaultShowCopyCode: true,
 });
 
+// Explicitly setting output to 'export' prevents the GitHub Action from crashing
 export default withNextra({
-  // Manually define the output to bypass the buggy injection
   output: "export",
   images: {
-    unoptimized: true, // Required for static exports
+    unoptimized: true, // Necessary for static exports using next/image
   },
-  // Note: 'redirects' is removed because it won't work on GitHub Pages
+  async redirects() {
+    return [
+      {
+        source: "/",
+        destination: "/resources",
+        permanent: true,
+      },
+    ];
+  },
 });
