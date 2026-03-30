@@ -1,0 +1,15 @@
+# Using BAPI in RAP managed scenario
+
+## Use cases
+1. When you want to reuse the existing BAPI logic in your RAP application.
+2. When you want to do some standard operations like creating a sales order or creating a purchase order based on the custom RAP based App.
+
+## Why these scenarios are not supported by RAP out of the box?
+1. COMMIT WORK is not allowed in RAP managed scenario, but most of the BAPIs have COMMIT WORK in their logic to get the document no.
+2. EML Business object creation is not useful if you want the document no. in return, since there's a need of calling COMMIT ENTITIES in BOs.
+
+
+## How to bypass this then
+1. Using parallel processing, so that the process we want to do will run in parallel session and not in the current RAP based Logical unit of working (LUW)
+2. Inside the action
+

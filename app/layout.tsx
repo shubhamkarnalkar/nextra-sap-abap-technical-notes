@@ -12,10 +12,9 @@ export const metadata = {
 // );
 const navbar = (
   <Navbar
-    logo={<b>📔Shubhamkar Nalkar&#39;s Blogs</b>}
+    logo={<b>📔Shubhamkar Nalkar</b>}
     logoLink={"https://www.linkedin.com/in/shubhankar-n"}
     projectLink="https://github.com/shubhamkarnalkar"
-    chatLink="https://discord.gg/"
   />
 );
 const footer = (
