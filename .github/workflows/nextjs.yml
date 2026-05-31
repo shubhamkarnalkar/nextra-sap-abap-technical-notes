@@ -3,7 +3,7 @@ name: Deploy Nextra to GitHub Pages
 on:
   push:
     branches:
-      - main # Change this to 'master' if your default branch is different
+      - master # Changed from 'main' to match active default branch
 
 permissions:
   contents: read
